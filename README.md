@@ -21,13 +21,13 @@ users can query emails sent to and from specific individuals and emails exchange
 - The program ignores duplicate terms and term order.
 - Example:
   `shell
-  $ enron_search term_search how are you doing?
+  $ enron_search_tool term_search how are you doing?
 
 **Address Search**:
-enron_search address_search last_name first_name
+enron_search_tool address_search last_name first_name
 
 
 **Interaction Search**:
-enron_search interaction_search address_1 address_2
+enron_search_tool interaction_search address_1 address_2
 
 
