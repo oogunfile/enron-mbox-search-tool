@@ -1,36 +1,42 @@
+User
 #!/usr/bin/env python
 # coding: utf-8
-
-# In[118]:
-
-
+import argparse
+import sys
 import mailbox
 import os
 import re
 from collections import Counter
-# iterate through mailbox files in directory
-#for filename in os.listdir("/Users/mac/Desktop/Enron2mbox-master/enron"):
-#    mbox_path = os.path.join("/Users/mac/Desktop/Enron2mbox-master/enron", filename)
-    # create mbox object
-#    mbox = mailbox.mbox(mbox_path)
-#mbox = mailbox.mbox("enron.allen-p._sent_mail")
 
 
-# In[113]:
+# Create the parser
+parser = argparse.ArgumentParser(description="Enron Search Tool")
+
+# Add an argument for the directory containing mbox files
+parser.add_argument('--dir', type=str, default='./Enron2mbox-master/enron', help='Directory containing mbox files')
+
+# Parse the arguments
+args = parser.parse_args()
+
+# Use the provided directory or the default
+mbox_dir = args.dir
 
 
 def enron_search_term(searchWord):
     #split the words and call set function to remove duplicate words
     word_split= set(searchWord.lower().split())
+    
     #join words and any white space inbetween. Use word boundaries to ensure exact search
     word_join = r"\b" + r"\b\s*".join(word_split) + r"\b"
+    
     #check:print(word_join)
     # make an object called pattern so you can use the search() with it
     pattern = re.compile(word_join , re.IGNORECASE)
     num = 0
+    
     # iterate through mailbox files in directory
-    for filename in os.listdir("/Users/mac/Desktop/Enron2mbox-master/enron"):
-        mbox_path = os.path.join("/Users/mac/Desktop/Enron2mbox-master/enron", filename)
+    for filename in os.listdir(mbox_dir):
+        mbox_path = os.path.join(mbox_dir, filename)
         # create mbox object
         mbox = mailbox.mbox(mbox_path)
         for message in mbox:
@@ -52,7 +58,6 @@ enron_search_term(searchWord)
 # In[123]:
 
 
-
 def enron_Name_search(prompt):
     num = 0 
     #to ensure both last and first name are entered
@@ -68,8 +73,8 @@ def enron_Name_search(prompt):
         fullName2 =  r"\b" + name[0] + r"[^a-zA-Z]*" + name[1]+ r"\b"
         #pattern_Fullname = re.compile(fullName1 + r"|" + fullName2, re.IGNORECASE, )
         # iterate through mailbox files in directory
-        for filename in os.listdir("/Users/mac/Desktop/Enron2mbox-master/enron"):
-            mbox_path = os.path.join("/Users/mac/Desktop/Enron2mbox-master/enron", filename)
+        for filename in os.listdir(mbox_dir):
+            mbox_path = os.path.join(mbox_dir, filename)
             # create mbox object
             mbox = mailbox.mbox(mbox_path)
             for message in mbox:
@@ -92,16 +97,14 @@ prompt = input("enron_search address_search last_name first_name: ")
 enron_Name_search(prompt)
 
 
-# In[100]:
-
 
 def search_Addresses(addy1, addy2):
     #escape() use special xters in re library as string,
     addy_pattern1 = re.compile(r"\b" + re.escape(addy1) + r"\b", re.IGNORECASE)
     addy_pattern2 = re.compile(r"\b" + re.escape(addy2) + r"\b", re.IGNORECASE)
     count =0
-    for filename in os.listdir("/Users/mac/Desktop/Enron2mbox-master/enron"):
-        mbox_path = os.path.join("/Users/mac/Desktop/Enron2mbox-master/enron", filename)
+    for filename in os.listdir(mbox_dir):
+        mbox_path = os.path.join(mbox_dir, filename)
         # create mbox object
         mbox = mailbox.mbox(mbox_path)
         for message in mbox:
@@ -122,11 +125,3 @@ def search_Addresses(addy1, addy2):
 addy1 = input("enron_search interaction_search address_1..  ")
 addy2 = input("enron_search interaction_search address_2..  ") 
 search_Addresses(addy1, addy2)
-    
-
-
-# In[ ]:
-
-
-
-
